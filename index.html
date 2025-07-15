@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple BMI Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('photo-1517685352821-92cf88aee5a5.avif');
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: #6a11cb;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #ddd;
+        }
+        
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-container i {
+            position: absolute;
+            left: 15px;
+            color: #6a11cb;
+            font-size: 1.1rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 12px 12px 45px;
+            border: none;
+            background: rgba(20, 20, 35, 0.8);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #6a11cb;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .result-container {
+            margin-top: 25px;
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(20, 20, 35, 0.6);
+        }
+        
+        .bmi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+            color: #6a11cb;
+        }
+        
+        .condition {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 10px 0;
+            color: #4ade80;
+        }
+        
+        .bmi-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 8px;
+            background: rgba(30, 30, 50, 0.6);
+            border-radius: 8px;
+        }
+        
+        .scale-item {
+            text-align: center;
+            padding: 6px;
+            border-radius: 6px;
+            width: 23%;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        .scale-item.active {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        .underweight { background: rgba(59, 130, 246, 0.4); }
+        .normal { background: rgba(52, 211, 153, 0.4); }
+        .overweight { background: rgba(251, 191, 36, 0.4); }
+        .obesity { background: rgba(239, 68, 68, 0.4); }
+        
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #aaa;
+            font-size: 0.85rem;
+        } 
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calculator"></i> BMI CALCULATOR</h1>
+            <p>Calculate your Body Mass Index</p>
+        </header>
+        
+        <div class="input-group">
+            <label for="height"><i class="fas fa-ruler"></i> Your Height (cm)</label>
+            <div class="input-container">
+                <input type="number" id="height" placeholder="Enter height" min="50" max="250" value="170">
+            </div>
+        </div>
+        
+        <div class="input-group">
+            <label for="weight"><i class="fas fa-weight-scale"></i> Your Weight (kg)</label>
+            <div class="input-container">
+                <input type="number" id="weight" placeholder="Enter weight" min="10" max="300" value="65">
+            </div>
+        </div>
+        
+        <button id="calculate">
+            CALCULATE BMI <i class="fas fa-arrow-right"></i>
+        </button>
+        
+        <div class="result-container">
+            <p>Your BMI is:</p>
+            <div class="bmi-value">22.49</div>
+            <div class="condition">Normal weight</div>
+            
+            <div class="bmi-scale">
+                <div class="scale-item underweight">&lt;18.5</div>
+                <div class="scale-item normal active">18.5-24.9</div>
+                <div class="scale-item overweight">25-29.9</div>
+                <div class="scale-item obesity">≥30</div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>BMI = Weight (kg) / [Height (m)]²</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heightInput = document.getElementById('height');
+            const weightInput = document.getElementById('weight');
+            const calculateBtn = document.getElementById('calculate');
+            const bmiValue = document.querySelector('.bmi-value');
+            const condition = document.querySelector('.condition');
+            const scaleItems = document.querySelectorAll('.scale-item');
+            
+            // Initialize calculation
+            calculateBMI();
+            
+            // Add event listeners
+            calculateBtn.addEventListener('click', calculateBMI);
+            heightInput.addEventListener('input', calculateBMI);
+            weightInput.addEventListener('input', calculateBMI);
+            
+            function calculateBMI() {
+                const height = parseFloat(heightInput.value) / 100;
+                const weight = parseFloat(weightInput.value);
+                
+                if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
+                    bmiValue.textContent = '0.00';
+                    condition.textContent = 'Enter values';
+                    return;
+                }
+                
+                const bmi = (weight / (height * height)).toFixed(2);
+                bmiValue.textContent = bmi;
+                
+                // Update condition and scale
+                let conditionText = '';
+                let conditionColor = '';
+                let activeIndex = 1;
+                
+                if (bmi < 18.5) {
+                    conditionText = 'Underweight';
+                    conditionColor = '#60a5fa';
+                    activeIndex = 0;
+                } else if (bmi < 25) {
+                    conditionText = 'Normal weight';
+                    conditionColor = '#4ade80';
+                    activeIndex = 1;
+                } else if (bmi < 30) {
+                    conditionText = 'Overweight';
+                    conditionColor = '#fbbf24';
+                    activeIndex = 2;
+                } else {
+                    conditionText = 'Obesity';
+                    conditionColor = '#f87171';
+                    activeIndex = 3;
+                }
+                
+                condition.textContent = conditionText;
+                condition.style.color = conditionColor;
+                
+                // Update active scale
+                scaleItems.forEach((item, i) => {
+                    item.classList.toggle('active', i === activeIndex);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
